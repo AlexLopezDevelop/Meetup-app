@@ -1,10 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
-import { SafeAreaView } from 'react-navigation'
+import { SafeAreaView } from 'react-navigation';
 
-import MeetupList from './src/components/MeetupList';
-import AppNavigation from './AppNavigation'
-import Auth from './src/components/Auth'
+import AppNavigation from './AppNavigation';
+import Auth from './src/components/Auth';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -24,11 +23,13 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <SafeAreaView>
-        <View style={{ felx: 1 }}>
-          <MeetupList/>
-        </View>
-      </SafeAreaView>
+      <View style={{ flex: 1 }}>
+        {
+          this.state.user
+          ? <AppNavigation user={this.state.user} />
+          : <Auth/>
+        }
+      </View>
     );
   }
 }

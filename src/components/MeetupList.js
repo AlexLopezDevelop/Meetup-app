@@ -11,6 +11,8 @@ import {
     ActivityIndicator
 } from 'react-native'
 
+import { navigationOptions } from '../config/navOptions'
+
 const {width, height}= Dimensions.get('window');
 
 export default class MeetupList extends React.Component {
@@ -22,14 +24,19 @@ export default class MeetupList extends React.Component {
         }
     }
 
+static navigationOptions = ({ navigation }) => ({
+    title: 'Meetup',
+    ... navigationOptions
+});
+
 componentWillMount() {
    setTimeout(() => {
     this.setState({
         events: [
-            {title: 'Evento de Meetup 1', groupImage: 'https://lh3.googleusercontent.com/rgQay7gOgrMSZkwZNgY7QAWriB6u5FwYvD6l_Ha4yiZxN_UzYDU-Evfa0zCWXGaYJFc', groupName: 'React Native Team'},
-            {title: 'Evento de Meetup 1', groupImage: 'https://lh3.googleusercontent.com/rgQay7gOgrMSZkwZNgY7QAWriB6u5FwYvD6l_Ha4yiZxN_UzYDU-Evfa0zCWXGaYJFc', groupName: 'React Native Team'},
-            {title: 'Evento de Meetup 1', groupImage: 'https://lh3.googleusercontent.com/rgQay7gOgrMSZkwZNgY7QAWriB6u5FwYvD6l_Ha4yiZxN_UzYDU-Evfa0zCWXGaYJFc', groupName: 'React Native Team'},
-            {title: 'Evento de Meetup 1', groupImage: 'https://lh3.googleusercontent.com/rgQay7gOgrMSZkwZNgY7QAWriB6u5FwYvD6l_Ha4yiZxN_UzYDU-Evfa0zCWXGaYJFc', groupName: 'React Native Team'}
+            {id: 1, title: 'Evento de Meetup 1', groupImage: 'https://lh3.googleusercontent.com/rgQay7gOgrMSZkwZNgY7QAWriB6u5FwYvD6l_Ha4yiZxN_UzYDU-Evfa0zCWXGaYJFc', groupName: 'React Native Team'},
+            {id: 2, title: 'Evento de Meetup 1', groupImage: 'https://lh3.googleusercontent.com/rgQay7gOgrMSZkwZNgY7QAWriB6u5FwYvD6l_Ha4yiZxN_UzYDU-Evfa0zCWXGaYJFc', groupName: 'React Native Team'},
+            {id: 3, title: 'Evento de Meetup 1', groupImage: 'https://lh3.googleusercontent.com/rgQay7gOgrMSZkwZNgY7QAWriB6u5FwYvD6l_Ha4yiZxN_UzYDU-Evfa0zCWXGaYJFc', groupName: 'React Native Team'},
+            {id: 4, title: 'Evento de Meetup 1', groupImage: 'https://lh3.googleusercontent.com/rgQay7gOgrMSZkwZNgY7QAWriB6u5FwYvD6l_Ha4yiZxN_UzYDU-Evfa0zCWXGaYJFc', groupName: 'React Native Team'}
         ],
         isLoading: false
     })
@@ -37,13 +44,16 @@ componentWillMount() {
 }
 
     render() {
+        const { navigation } = this.props
         return this.state.isLoading
             ? (<ActivityIndicator style={styles.loader} size={1}/>)
             : (
             <ScrollView Style={styles.container}>
                 {this.state.events.map((event, i) => (
                 
-                    <TouchableWithoutFeedback key={i} onPress={() => null} >
+                    <TouchableWithoutFeedback 
+                    key={i} 
+                    onPress={() => navigation.navigate('Detail', {group: event.groupName, id: event.id})} >
                         <View style={styles.card}>
                             <Image style={styles.image} source={{uri: event.groupImage}}/>
                             <View style={styles.cardContent}>
@@ -71,17 +81,15 @@ const styles = StyleSheet.create({
     card: {
         backgroundColor: 'white',
         borderColor: '#ddd',
-        borderWidth: 1,
-        borderRadius: 3,
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        height: 100,
+        height: 80,
         marginVertical: 3
     }, 
     image: {
-        width: 100,
-        height: 100
+        width: 80,
+        height: 80
     },
     cardContent: {
         flex: 1,
@@ -89,7 +97,7 @@ const styles = StyleSheet.create({
         margin: 0
     },
     title: {
-        fontSize: 20,
+        fontSize: 17,
         fontWeight: 'bold'
     }
 })
